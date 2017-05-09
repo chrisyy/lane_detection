@@ -1,0 +1,66 @@
+<html>
+<!-- This is a comment in HTML -->
+
+<head>
+
+<title>Welcome to Ying Ye's web page</title>
+<!-- The title tag sets the title bar of the web bar -->
+
+</head>
+
+<body bgcolor="#ffffff">
+<!-- The <body> tag lets the browser know that we are beginning the body of the web page.  The bgcolor option sets the background color to the web page -->
+
+   <h1>Welcome Ying Ye's web page</h1>
+   <!-- The <h1> tag sets the text to a Heading 1 style.  This is the largest and boldest of all the various heading styles.  The <img> tag includes an image file pointed to the value after src.  In this case it is smiley.gif -->
+
+   <p>CS 585 Project: Lane Detection in Real-Time application
+   <p>Ying Ye
+   <p>12/5/2011
+   <p>-------------------------------------------
+
+   <p>Method and Implementation
+   <p>(1) Initialization: put the car in the middle of the lanes, then use the first video frame to get the distances between lanes and the middle of the frame image, and store them as the standard car position.
+   <p>(2) Basic algorithm: 
+   <p>1. Starting from the middle of the image, a scan window with configurable size will move along the right direction. Inside the window, Canny algorithm is used to detect right lane.
+   <p>2. If lane is not found after the window has been moved to the right side, move the window up a little, then scan again from the middle of the image. This rescanning can be performed for N (configurable) times.
+   <p>3. Once find out the lane, get the distances between it and the middle of the image; compare it with the standard position to get a direction control advice.
+   <p>4. Without the left lane detection module, just use the control advice to set the car behavior.
+   <p>(3) Left lane detection (LLD): LLD module can be enabled and disabled dynamically to balance accuracy and computing cost. It does the same thing as the right lane detection (RLD) module in basic algorithm except moving the scan window to the left.
+   <p>(4) Algorithm 2:
+   <p>1. If LLD is enabled, then, after getting a control advice from RLD, run LLD and get another direction control advice.
+   <p>2. Then:
+   <p>if one of the two modules fails to find the lane, take the other's control advice to set the car;
+   <p>if they both fail, slow down the car;
+   <p>if they both work but have different advices, take advice from the module that has a result of larger deviation from the standard position;
+   <p>if they work and have the same advice, take it.
+   <p>(5) Feature:
+   <p>Dynamically adjust the starting position of scan window according to the driving speed:
+   <p>if the speed increases, the starting position of scan window will be moved up a little to get position information of lane segments further away.
+   <p>if the speed decreases, it will be moved down a little.
+   <p>-------------------------------------------
+   <p>Experiments
+   <p>I got two videos from OTCBVS benchmark and worked with them. Note that the first several moving distances printed are not reliable because of the Gaussian model initialization process.
+   <p>-------------------------------------------
+   <p>Results
+   <p>Basic:
+   <p><img src="1.jpg">
+   <p>Rescanning in basic:
+   <p><img src="2.jpg">
+   <p>With LLD:
+   <p><img src="3.jpg">
+   <p><img src="5.jpg">
+   <p>Scan position adjustment:
+   <p><img src="4.jpg">
+   <p>Basic with larger scan window:
+   <p><img src="6.jpg">
+   <p>-------------------------------------------
+   <p>Discussion
+   <p>(1) For simple environment, the system can detect the lanes very quickly, but it will be slower if the environment is hard for detection. We can turn off or weaken the rescanning feature to speed up the system at the cost of occasional detection failures.
+   <p>(2) The LLD can enhance the system accuracy, but will double the computing cost of lane detection.
+   <p>(3) Small scan window can make the system fast, but is sensitive to noises in the image; larger scan window handles noises better, but adds computing cost.
+   <p>-------------------------------------------
+   <p>Conclusion
+   <p>The system should be dynamically configured to adapt to different environments in order to get an accurate result with reasonable cost.
+</body>
+</html>
